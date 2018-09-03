@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/angularjs/angularjs.iml" filepath="$PROJECT_DIR$/angularjs/angularjs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou/pinyougou.iml" filepath="$PROJECT_DIR$/pinyougou/pinyougou.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou/pinyougou-common/pinyougou-common.iml" filepath="$PROJECT_DIR$/pinyougou/pinyougou-common/pinyougou-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou/pinyougou-dao/pinyougou-dao.iml" filepath="$PROJECT_DIR$/pinyougou/pinyougou-dao/pinyougou-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou/pinyougou-manage-web/pinyougou-manage-web.iml" filepath="$PROJECT_DIR$/pinyougou/pinyougou-manage-web/pinyougou-manage-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou/pinyougou-pojo/pinyougou-pojo.iml" filepath="$PROJECT_DIR$/pinyougou/pinyougou-pojo/pinyougou-pojo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou/pinyougou-sellergoods/pinyougou-sellergoods.iml" filepath="$PROJECT_DIR$/pinyougou/pinyougou-sellergoods/pinyougou-sellergoods.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou/pinyougou-sellergoods/pinyougou-sellergoods-interface/pinyougou-sellergoods-interface.iml" filepath="$PROJECT_DIR$/pinyougou/pinyougou-sellergoods/pinyougou-sellergoods-interface/pinyougou-sellergoods-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou/pinyougou-sellergoods/pinyougou-sellergoods-service/pinyougou-sellergoods-service.iml" filepath="$PROJECT_DIR$/pinyougou/pinyougou-sellergoods/pinyougou-sellergoods-service/pinyougou-sellergoods-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou/pinyougou-shop-web/pinyougou-shop-web.iml" filepath="$PROJECT_DIR$/pinyougou/pinyougou-shop-web/pinyougou-shop-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-security/spring-security.iml" filepath="$PROJECT_DIR$/spring-security/spring-security.iml" />
+    </modules>
+  </component>
+</project>

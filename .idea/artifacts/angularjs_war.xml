@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="angularjs:war">
+    <output-path>$PROJECT_DIR$/angularjs/target</output-path>
+    <root id="archive" name="angularjs-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="angularjs:war exploded" />
+    </root>
+  </artifact>
+</component>
