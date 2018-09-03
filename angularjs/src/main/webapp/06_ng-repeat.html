@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>angularJS测试</title>
+    <script src="js/angular.min.js"></script>
+    <script type="text/javascript">
+        //创建angular模块
+        //参数一: 模块的名称
+        //参数二: 要加载的其他模块列表,如果没有也得加这个空数组,不加表示获取一个模块
+        var app = angular.module("app",[]);
+
+        //注册处理器,名称为myController,注入#scope上下文服务
+        app.controller("myController",function ($scope) {
+          $scope.list = [1,2,3,4,5];
+          $scope.persons = [{"id":001,"name":"传智播客1","gender":"男"},
+                            {"id":002,"name":"传智播客2","gender":"女"},
+                            {"id":003,"name":"传智播客3","gender":"男"}
+          ];
+        });
+    </script>
+</head>
+<body ng-app="app" ng-controller="myController">
+简单数值遍历:<br>
+<div ng-repeat="num in list">
+    {{num}}<br>
+</div>
+
+自定义对象集合<br>
+<table>
+    <tr>
+        <td>id</td>
+        <td>姓名</td>
+        <td>性别</td>
+    </tr>
+    <tr ng-repeat="p in persons">
+        <td>{{p.id}}</td>
+        <td>{{p.name}}</td>
+        <td>{{p.gender}}</td>
+    </tr>
+</table>
+</body>
+</html>
