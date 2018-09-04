@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/angularjs/angularjs.iml" filepath="$PROJECT_DIR$/angularjs/angularjs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fastdfs_client/itcast.fastdfs_client.iml" filepath="$PROJECT_DIR$/fastdfs_client/itcast.fastdfs_client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/itcast-fastdfs/itcast.itcast-fastdfs.iml" filepath="$PROJECT_DIR$/itcast-fastdfs/itcast.itcast-fastdfs.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou/pinyougou.iml" filepath="$PROJECT_DIR$/pinyougou/pinyougou.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou/pinyougou-common/pinyougou-common.iml" filepath="$PROJECT_DIR$/pinyougou/pinyougou-common/pinyougou-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou/pinyougou-dao/pinyougou-dao.iml" filepath="$PROJECT_DIR$/pinyougou/pinyougou-dao/pinyougou-dao.iml" />

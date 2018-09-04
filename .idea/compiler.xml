@@ -7,6 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="angularjs" />
+        <module name="itcast.fastdfs_client" />
+        <module name="itcast.itcast-fastdfs" />
         <module name="pinyougou-common" />
         <module name="pinyougou-dao" />
         <module name="pinyougou-manage-web" />
@@ -19,6 +21,8 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="angularjs" target="1.5" />
+      <module name="itcast.fastdfs_client" target="1.5" />
+      <module name="itcast.itcast-fastdfs" target="1.5" />
       <module name="pinyougou" target="1.8" />
       <module name="pinyougou-common" target="1.8" />
       <module name="pinyougou-dao" target="1.8" />
