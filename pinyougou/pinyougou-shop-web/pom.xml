@@ -71,6 +71,18 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-context-support</artifactId>
     </dependency>
+      <!--图片上传依赖-->
+      <dependency>
+          <groupId>commons-fileupload</groupId>
+          <artifactId>commons-fileupload</artifactId>
+      </dependency>
+    <dependency>
+      <groupId>com.pinyougou</groupId>
+      <artifactId>pinyougou-common</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+
   </dependencies>
   <build>
     <plugins>
