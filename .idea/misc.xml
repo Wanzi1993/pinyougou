@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/angularjs" />
+    <file type="web" url="file://$PROJECT_DIR$/pinyougou/pinyougou-content/pinyougou-content-service" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou/pinyougou-manage-web" />
+    <file type="web" url="file://$PROJECT_DIR$/pinyougou/pinyougou-portal-web" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou/pinyougou-sellergoods/pinyougou-sellergoods-service" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou/pinyougou-shop-web" />
     <file type="web" url="file://$PROJECT_DIR$/spring-security" />
@@ -10,28 +13,16 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/pinyougou/pom.xml" />
         <option value="$PROJECT_DIR$/angularjs/pom.xml" />
-        <option value="$PROJECT_DIR$/spring-security/pom.xml" />
-        <option value="$PROJECT_DIR$/pinyougou/pinyougou-dao/pom.xml" />
-        <option value="$PROJECT_DIR$/pinyougou/pinyougou-manage-web/pom.xml" />
-        <option value="$PROJECT_DIR$/pinyougou/pinyougou-pojo/pom.xml" />
-        <option value="$PROJECT_DIR$/pinyougou/pinyougou-sellergoods/pom.xml" />
-        <option value="$PROJECT_DIR$/pinyougou/pinyougou-sellergoods/pinyougou-sellergoods-interface/pom.xml" />
-        <option value="$PROJECT_DIR$/pinyougou/pinyougou-sellergoods/pinyougou-sellergoods-service/pom.xml" />
+        <option value="$PROJECT_DIR$/pinyougou/pom.xml" />
         <option value="$PROJECT_DIR$/fastdfs_client/pom.xml" />
         <option value="$PROJECT_DIR$/itcast-fastdfs/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-security/pom.xml" />
+        <option value="$PROJECT_DIR$/itcast-redis/pom.xml" />
       </list>
     </option>
-    <option name="ignoredFiles">
-      <set>
-        <option value="$PROJECT_DIR$/pinyougou/pinyougou-sellergoogs/pinyougou-sellergoogs-interface/pom.xml" />
-        <option value="$PROJECT_DIR$/pinyougou/pinyougou-sellergoogs/pinyougou-sellergoogs-service/pom.xml" />
-        <option value="$PROJECT_DIR$/pinyougou/pinyougou-sellergoogs/pom.xml" />
-      </set>
-    </option>
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
