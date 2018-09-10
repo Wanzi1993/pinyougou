@@ -70,11 +70,8 @@ app.controller("contentController", function ($scope, $controller, contentServic
 
     //上传图片
     $scope.uploadFile = function () {
-
         uploadService.uploadFile().success(function (response) {
-
             if(response.success) {
-
                 $scope.entity.pic = response.message;
             } else {
                 alert(response.message);
