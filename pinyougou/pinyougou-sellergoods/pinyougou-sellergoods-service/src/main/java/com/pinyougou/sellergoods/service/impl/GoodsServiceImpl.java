@@ -136,7 +136,7 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
             //将图片json字符串转换为json对象
             List<Map> images = JSONArray.parseArray(goods.getGoodsDesc().getItemImages(), Map.class);
 
-            item.setImage(images.get(0).toString());
+            item.setImage(images.get(0).get("url").toString());
         }
         //设置商家
         TbSeller tbSeller = sellerMapper.selectByPrimaryKey(goods.getGoods().getSellerId());
@@ -163,6 +163,33 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
         //按条件查询商品规格,封装进goods对象
         Example example = new Example(TbItem.class);
         example.createCriteria().andEqualTo("goodsId",id);
+        List<TbItem> tbItems = itemMapper.selectByExample(example);
+        goods.setItemList(tbItems);
+
+        return goods;
+    }
+
+    @Override
+    public Goods findGoodsByIdAndStatus(Long goodsId,String status) {
+        Goods goods = new Goods();
+
+        //1.查询商品基本信息,封装进goods对象
+        TbGoods tbGoods = findOne(goodsId);
+        goods.setGoods(tbGoods);
+
+        //2.查询商品描述信息,封装进goods对象
+        TbGoodsDesc tbGoodsDesc = goodsDescMapper.selectByPrimaryKey(goodsId);
+        goods.setGoodsDesc(tbGoodsDesc);
+
+        //3、根据商品id查询商品sku列表并且更加是否默认降序排序
+        Example example = new Example(TbItem.class);
+        Example.Criteria criteria = example.createCriteria();
+
+        criteria.andEqualTo("status",status);
+        criteria.andEqualTo("goodsId",goodsId);
+
+        example.orderBy("isDefault").desc();
+
         List<TbItem> tbItems = itemMapper.selectByExample(example);
         goods.setItemList(tbItems);
 
@@ -200,6 +227,7 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
         goodsMapper.updateByExampleSelective(tbGoods,example);
     }
 
+
     @Override
     public void updateStatus(Long[] ids, String status) {
         //更新状态为送审状态
@@ -217,7 +245,7 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
 
             Example example1 = new Example(TbItem.class);
 
-            example1.createCriteria().andIn("id",Arrays.asList(ids));
+            example1.createCriteria().andIn("goodsId",Arrays.asList(ids));
             itemMapper.updateByExampleSelective(tbItem,example1);
         }
 
@@ -241,5 +269,16 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
         }
 
 
+    }
+
+
+    @Override
+    public List<TbItem> findItemListByGoodsIdsAndStatus(Long[] ids, String status) {
+        Example example = new Example(TbItem.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("status",status);
+        criteria.andIn("goodsId",Arrays.asList(ids));
+
+        return itemMapper.selectByExample(example);
     }
 }

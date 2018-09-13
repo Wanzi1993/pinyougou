@@ -2,6 +2,8 @@ package com.pinyougou.manage.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.TbGoods;
+import com.pinyougou.pojo.TbItem;
+import com.pinyougou.search.service.ItemSearchService;
 import com.pinyougou.sellergoods.service.GoodsService;
 import com.pinyougou.vo.Goods;
 import com.pinyougou.vo.PageResult;
@@ -9,6 +11,7 @@ import com.pinyougou.vo.Result;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RequestMapping("/goods")
@@ -17,6 +20,10 @@ public class GoodsController {
 
     @Reference
     private GoodsService goodsService;
+
+    //搜索对象
+    @Reference
+    private ItemSearchService itemSearchService;
 
     @RequestMapping("/findAll")
     public List<TbGoods> findAll() {
@@ -86,6 +93,9 @@ public class GoodsController {
     public Result delete(Long[] ids) {
         try {
             goodsService.deleteGoodsByIds(ids);
+
+            //数据同步删除
+            itemSearchService.deleteItemByGoodsIds(Arrays.asList(ids));
             return Result.ok("删除成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,16 +115,30 @@ public class GoodsController {
                                @RequestParam(value = "rows", defaultValue = "10")Integer rows) {
         return goodsService.search(page, rows, goods);
     }
+    /**
+     * 根据商品id集合更新对应的商品的状态
+     * @param ids 商品id集合
+     * @param status 商品的状态
+     * @return 操作结果
+     */
 
     @GetMapping("/updateStatus")
     public Result updateStatus(Long[] ids,String status){
         try {
             goodsService.updateStatus(ids,status);
-            return Result.ok("送审成功");
+
+            //同步更新审核通过的商品数据
+            if ("2".equals(status)){
+                List<TbItem> tbItemList = goodsService.findItemListByGoodsIdsAndStatus(ids,"1");
+                itemSearchService.importItemList(tbItemList);
+
+            }
+
+            return Result.ok("更新成功");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Result.fail("送审失败");
+        return Result.fail("更新失败");
     }
 
 }
