@@ -1,17 +1,23 @@
 package com.pinyougou.manage.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbItem;
-import com.pinyougou.search.service.ItemSearchService;
 import com.pinyougou.sellergoods.service.GoodsService;
 import com.pinyougou.vo.Goods;
 import com.pinyougou.vo.PageResult;
 import com.pinyougou.vo.Result;
+import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.activemq.command.ActiveMQTopic;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.JmsException;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import javax.jms.*;
 import java.util.List;
 
 @RequestMapping("/goods")
@@ -22,8 +28,24 @@ public class GoodsController {
     private GoodsService goodsService;
 
     //搜索对象
-    @Reference
-    private ItemSearchService itemSearchService;
+    //@Reference
+    //private ItemSearchService itemSearchService;
+
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
+    @Autowired
+    private ActiveMQQueue solrItemQueue;
+
+    @Autowired
+    private ActiveMQQueue solrItemDeleteQueue;
+
+    @Autowired
+    private ActiveMQTopic itemTopic;
+
+    @Autowired
+    private ActiveMQTopic itemDeleteTopic;
+
 
     @RequestMapping("/findAll")
     public List<TbGoods> findAll() {
@@ -31,13 +53,14 @@ public class GoodsController {
     }
 
     @GetMapping("/findPage")
-    public PageResult findPage(@RequestParam(value = "page", defaultValue = "1")Integer page,
-                               @RequestParam(value = "rows", defaultValue = "10")Integer rows) {
+    public PageResult findPage(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                               @RequestParam(value = "rows", defaultValue = "10") Integer rows) {
         return goodsService.findPage(page, rows);
     }
 
     /**
      * 保存商品的基本,描述,sku列表
+     *
      * @param goods
      * @return 操作结果
      */
@@ -57,7 +80,8 @@ public class GoodsController {
     }
 
     /**
-     *  根据id查询商品信息进行回显修改
+     * 根据id查询商品信息进行回显修改
+     *
      * @param id
      * @return
      */
@@ -68,6 +92,7 @@ public class GoodsController {
 
     /**
      * 修改商品
+     *
      * @param goods
      * @return
      */
@@ -78,7 +103,7 @@ public class GoodsController {
             TbGoods oldGoods = goodsService.findOne(goods.getGoods().getId());
             String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
 
-            if (!oldGoods.getSellerId().equals(sellerId) || !sellerId.equals(goods.getGoods().getSellerId())){
+            if (!oldGoods.getSellerId().equals(sellerId) || !sellerId.equals(goods.getGoods().getSellerId())) {
                 Result.fail("非法操作");
             }
             goodsService.updateGoods(goods);
@@ -95,7 +120,9 @@ public class GoodsController {
             goodsService.deleteGoodsByIds(ids);
 
             //数据同步删除
-            itemSearchService.deleteItemByGoodsIds(Arrays.asList(ids));
+            //itemSearchService.deleteItemByGoodsIds(Arrays.asList(ids));
+            sendMQMsg(solrItemDeleteQueue,ids);
+            sendMQMsg(itemDeleteTopic,ids);
             return Result.ok("删除成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -104,36 +131,72 @@ public class GoodsController {
     }
 
     /**
+     * 发现MQ消息
+     * @param destination 模式:队列,主题
+     * @param ids 商品idspu集合
+     */
+    private void sendMQMsg(Destination destination, Long[] ids) {
+        try {
+            jmsTemplate.send(destination, new MessageCreator() {
+                @Override
+                public Message createMessage(Session session) throws JMSException {
+                    ObjectMessage objectMessage = session.createObjectMessage();
+
+                    objectMessage.setObject(ids);
+                    return objectMessage;
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 分页查询列表
+     *
      * @param goods 查询条件
-     * @param page 页号
-     * @param rows 每页大小
+     * @param page  页号
+     * @param rows  每页大小
      * @return
      */
     @PostMapping("/search")
-    public PageResult search(@RequestBody  TbGoods goods, @RequestParam(value = "page", defaultValue = "1")Integer page,
-                               @RequestParam(value = "rows", defaultValue = "10")Integer rows) {
+    public PageResult search(@RequestBody TbGoods goods, @RequestParam(value = "page", defaultValue = "1") Integer page,
+                             @RequestParam(value = "rows", defaultValue = "10") Integer rows) {
         return goodsService.search(page, rows, goods);
     }
+
     /**
      * 根据商品id集合更新对应的商品的状态
-     * @param ids 商品id集合
+     *
+     * @param ids    商品id集合
      * @param status 商品的状态
      * @return 操作结果
      */
 
     @GetMapping("/updateStatus")
-    public Result updateStatus(Long[] ids,String status){
+    public Result updateStatus(Long[] ids, String status) {
         try {
-            goodsService.updateStatus(ids,status);
+            goodsService.updateStatus(ids, status);
 
             //同步更新审核通过的商品数据
-            if ("2".equals(status)){
-                List<TbItem> tbItemList = goodsService.findItemListByGoodsIdsAndStatus(ids,"1");
-                itemSearchService.importItemList(tbItemList);
+            if ("2".equals(status)) {
+                List<TbItem> tbItemList = goodsService.findItemListByGoodsIdsAndStatus(ids, "1");
+                //itemSearchService.importItemList(tbItemList);
 
+                //使用MQ同步搜索信息,发送审核通过的商品MQ消息
+                jmsTemplate.send(solrItemQueue, new MessageCreator() {
+                    @Override
+                    public Message createMessage(Session session) throws JMSException {
+                        //创建一个文本消息
+                        TextMessage textMessage = session.createTextMessage();
+
+                        textMessage.setText(JSON.toJSONString(tbItemList));
+                        return textMessage;
+                    }
+                });
             }
-
+            sendMQMsg(itemTopic,ids);
             return Result.ok("更新成功");
         } catch (Exception e) {
             e.printStackTrace();
