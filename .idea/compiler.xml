@@ -8,19 +8,40 @@
         <outputRelativeToContentRoot value="true" />
         <module name="angularjs" />
         <module name="fastdfs_client" />
+        <module name="itcast-cas-client-2" />
         <module name="itcast-fastdfs" />
+        <module name="itcast-security-cas" />
+        <module name="itcast.itcast-activemq" />
+        <module name="itcast.itcast-freemarker" />
+        <module name="itcast.itcast-sms" />
+        <module name="itcast.itcast-spring-boot" />
+        <module name="itcast.itcast.itcast-cas-client-1" />
+        <module name="pinyougou-cart-interface" />
+        <module name="pinyougou-cart-service" />
+        <module name="pinyougou-cart-web" />
         <module name="pinyougou-common" />
         <module name="pinyougou-content-interface" />
         <module name="pinyougou-content-service" />
         <module name="pinyougou-dao" />
+        <module name="pinyougou-item-web" />
         <module name="pinyougou-manage-web" />
         <module name="pinyougou-pojo" />
         <module name="pinyougou-portal-web" />
+        <module name="pinyougou-search-interface" />
+        <module name="pinyougou-search-service" />
+        <module name="pinyougou-search-web" />
         <module name="pinyougou-sellergoods-interface" />
         <module name="pinyougou-sellergoods-service" />
         <module name="pinyougou-shop-web" />
+        <module name="pinyougou-solr-import" />
+        <module name="pinyougou-user-interface" />
+        <module name="pinyougou-user-service" />
+        <module name="pinyougou-user-web" />
         <module name="spring-security" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="itcast.alicom-dysms-api" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>
