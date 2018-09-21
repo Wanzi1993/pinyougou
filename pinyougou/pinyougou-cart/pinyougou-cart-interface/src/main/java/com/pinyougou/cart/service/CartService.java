@@ -1,5 +1,6 @@
 package com.pinyougou.cart.service;
 
+import com.pinyougou.pojo.TbAddress;
 import com.pinyougou.vo.Cart;
 
 import java.util.List;
@@ -34,4 +35,5 @@ public interface CartService {
     void saveCartListToRedis(List<Cart> cartList, String username);
 
     List<Cart> mergeCartList(List<Cart> cookie_cartList, List<Cart> redis_cartList);
+
 }

@@ -4,12 +4,14 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONArray;
 import com.pinyougou.cart.service.CartService;
 import com.pinyougou.common.util.CookieUtils;
+import com.pinyougou.pojo.TbAddress;
 import com.pinyougou.vo.Cart;
 import com.pinyougou.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,6 +52,7 @@ public class CartController {
      * @param num 数量
      * @return 操作结果
      */
+    @CrossOrigin(origins = "http://item.pinyougou.com" ,allowCredentials = "true")
     @GetMapping("/addItemToCartList")
     public Result addItemToCartList(Long itemId, Integer num) {
         try {
@@ -139,5 +142,7 @@ public class CartController {
         }
 
     }
+
+
 
 }
