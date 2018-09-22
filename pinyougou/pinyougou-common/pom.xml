@@ -33,6 +33,11 @@
             <artifactId>servlet-api</artifactId>
             <scope>compile</scope>
         </dependency>
+        <!--httpclient-->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
